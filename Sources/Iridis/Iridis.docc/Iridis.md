@@ -7,8 +7,9 @@ Named themes and semantic palettes for SwiftUI.
 Iridis separates the colors an interface uses into two pieces: an
 ``IridisPalette`` describes the semantic roles of one appearance, and an
 ``IridisTheme`` pairs a light and a dark palette under a name. The ``Iridis``
-manager holds the active theme and resolves the palette for the effective
-color scheme.
+protocol describes the manager that holds the active theme and resolves the
+palette for the effective color scheme; ``IridisImpl`` is its observable
+default implementation.
 
 The package is deliberately free of brand colors. An app defines the themes it
 ships, registers them at launch and declares the `EnvironmentValues` entry that
@@ -38,6 +39,7 @@ updates every view that reads the manager from the environment.
 ### Managing the active theme
 
 - ``Iridis``
+- ``IridisImpl``
 
 ### Guides
 

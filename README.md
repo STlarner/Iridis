@@ -4,8 +4,10 @@ Named themes and semantic palettes for SwiftUI.
 
 Iridis is the colored ring of the eye: the part that decides how everything
 looks. The package gives an app a small, explicit model for appearance — an
-`IridisTheme` pairs a light and a dark `IridisPalette`, and an `Iridis` manager
-holds the active one and resolves the palette for the effective color scheme.
+`IridisTheme` pairs a light and a dark `IridisPalette`, and the `Iridis`
+protocol exposes the manager that holds the active one and resolves the palette
+for the effective color scheme. `IridisImpl` is the observable default
+implementation.
 
 The package intentionally ships no brand colors and no persistence. Themes,
 theme names, stored preferences and onboarding belong to the app that uses it.
@@ -16,7 +18,8 @@ Public types carry the package name, so an app can keep its own `Theme`,
 
 - Semantic `IridisPalette` roles shared by light and dark appearances.
 - Named `IridisTheme` values, with a light and a dark palette.
-- Observable `Iridis` manager that follows the system or a forced color scheme.
+- Observable `IridisImpl` manager behind the `Iridis` protocol, following the
+  system or a forced color scheme.
 - Hex values bridged to SwiftUI `Color` and UIKit `UIColor`.
 - No globals, no storage, no app-specific copy.
 
@@ -30,7 +33,7 @@ Add `https://github.com/STlarner/Iridis.git` as an Xcode package dependency
 and select the `Iridis` product. For a SwiftPM project:
 
 ```swift
-.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.2.0")
+.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.3.0")
 ```
 
 ## Quick start
@@ -92,7 +95,7 @@ The initial theme is required: the package has no default to fall back to.
 Register every other theme the app offers, then select the one to show.
 
 ```swift
-let iridis = Iridis(theme: .defaultTheme())
+let iridis = IridisImpl(theme: .defaultTheme())
 iridis.registerTheme(.defaultTheme())
 iridis.setTheme(.defaultTheme())
 ```
@@ -104,7 +107,7 @@ default value.
 
 ```swift
 extension EnvironmentValues {
-    @Entry var theme: Iridis = Iridis(theme: .defaultTheme())
+    @Entry var theme: any Iridis = IridisImpl(theme: .defaultTheme())
 }
 ```
 

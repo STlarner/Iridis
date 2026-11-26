@@ -59,7 +59,7 @@ extension IridisTheme {
 ## Create the manager
 
 ```swift
-let iridis = Iridis(theme: .defaultTheme())
+let iridis = IridisImpl(theme: .defaultTheme())
 iridis.registerTheme(.defaultTheme())
 iridis.setColorScheme(.dark)
 ```
@@ -75,7 +75,7 @@ app's themes. Iridis ships no default theme on purpose.
 
 ```swift
 extension EnvironmentValues {
-    @Entry var theme: Iridis = Iridis(theme: .defaultTheme())
+    @Entry var theme: any Iridis = IridisImpl(theme: .defaultTheme())
 }
 ```
 
