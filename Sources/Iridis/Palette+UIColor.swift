@@ -1,6 +1,7 @@
 #if canImport(UIKit)
 import UIKit
 
+/// UIKit bridging for hexadecimal colors.
 extension ColorHex {
     /// The UIKit color for this hexadecimal string.
     public var uiColor: UIColor { UIColor(hex: self) }

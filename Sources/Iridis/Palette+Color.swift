@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// SwiftUI bridging for hexadecimal colors.
 extension ColorHex {
     /// The SwiftUI color for this hexadecimal string.
     public var color: Color { Color(hex: self) }
