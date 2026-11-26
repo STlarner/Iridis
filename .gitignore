@@ -1,0 +1,11 @@
+.DS_Store
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+__pycache__/
+*.py[cod]
+
+# Local agent instructions (kept out of the published package)
+AGENTS.md
