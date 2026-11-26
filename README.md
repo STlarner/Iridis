@@ -168,7 +168,8 @@ let border = "#E0D8D0".uiColor
 
 ## Documentation
 
-The API reference and the usage guide follow the `main` branch on GitHub Pages.
+The API reference and the usage guide follow the `main` branch on GitHub Pages:
+<https://stlarner.github.io/Iridis/>.
 
 ## License
 
