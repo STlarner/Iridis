@@ -1,7 +1,7 @@
 import Iridis
 
 enum Fixtures {
-    static let alpha = Theme(
+    static let alpha = IridisTheme(
         name: "Alpha",
         lightPalette: palette(
             brand: "#A1A1A1",
@@ -19,7 +19,7 @@ enum Fixtures {
         )
     )
 
-    static let beta = Theme(
+    static let beta = IridisTheme(
         name: "Beta",
         lightPalette: palette(
             brand: "#B1B1B1",
@@ -43,8 +43,8 @@ enum Fixtures {
         text: String,
         state: String,
         border: String
-    ) -> Palette {
-        Palette(
+    ) -> IridisPalette {
+        IridisPalette(
             brandPrimary: brand,
             brandVariant: brand,
             surfacePrimary: surface,

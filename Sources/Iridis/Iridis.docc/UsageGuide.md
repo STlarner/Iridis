@@ -1,20 +1,21 @@
 # Using Iridis
 
-Define the themes your app ships, register them with a manager, expose the
-manager through the environment, and read semantic colors from views.
+Define the themes your app ships, register them with an `Iridis` manager,
+expose the manager through the environment, and read semantic colors from
+views.
 
 ## Define a theme
 
-A palette holds the semantic roles of a single appearance. A theme pairs a
-light and a dark palette under a name. Define the themes an app ships in the
-app target, not in the package.
+An `IridisPalette` holds the semantic roles of a single appearance. An
+`IridisTheme` pairs a light and a dark palette under a name. Define the themes
+an app ships in the app target, not in the package.
 
 <!-- swift-example: guide -->
 
 ```swift
-extension Theme {
-    static func defaultTheme() -> Theme {
-        let light = Palette(
+extension IridisTheme {
+    static func defaultTheme() -> IridisTheme {
+        let light = IridisPalette(
             brandPrimary: "#E07A60",
             brandVariant: "#C4614A",
             surfacePrimary: "#FBF7F3",
@@ -30,7 +31,7 @@ extension Theme {
             surfaceSuccess: "#E7F3ED",
             border: "#E0D8D0"
         )
-        let dark = Palette(
+        let dark = IridisPalette(
             brandPrimary: "#E07A60",
             brandVariant: "#C4614A",
             surfacePrimary: "#1B1712",
@@ -46,7 +47,7 @@ extension Theme {
             surfaceSuccess: "#1E3427",
             border: "#5C524B"
         )
-        return Theme(
+        return IridisTheme(
             name: "Terracotta",
             lightPalette: light,
             darkPalette: dark
@@ -58,9 +59,9 @@ extension Theme {
 ## Create the manager
 
 ```swift
-let manager = ThemeManagerImpl(theme: .defaultTheme())
-manager.registerTheme(.defaultTheme())
-manager.setColorScheme(.dark)
+let iridis = Iridis(theme: .defaultTheme())
+iridis.registerTheme(.defaultTheme())
+iridis.setColorScheme(.dark)
 ```
 
 `setColorScheme(_:)` forces a scheme for the app; pass `nil` to follow the
@@ -74,9 +75,7 @@ app's themes. Iridis ships no default theme on purpose.
 
 ```swift
 extension EnvironmentValues {
-    @Entry var theme: any ThemeManager = ThemeManagerImpl(
-        theme: .defaultTheme()
-    )
+    @Entry var theme: Iridis = Iridis(theme: .defaultTheme())
 }
 ```
 
@@ -97,7 +96,7 @@ struct ThemedCard: View {
 
 <!-- /swift-example -->
 
-Use `ColorHex.uiColor` when a UIKit API needs a color, for example an
+Use `IridisColorHex.uiColor` when a UIKit API needs a color, for example an
 appearance proxy. The bridge is available wherever UIKit is available.
 
 ## Persist the selection

@@ -1,11 +1,11 @@
 import Iridis
 import Testing
 
-@Suite("Palette")
-struct PaletteTests {
+@Suite("IridisPalette")
+struct IridisPaletteTests {
     @Test("initializer stores all palette values")
     func init_storesAllValues() {
-        let palette = Palette(
+        let palette = IridisPalette(
             brandPrimary: "#111111",
             brandVariant: "#222222",
             surfacePrimary: "#333333",

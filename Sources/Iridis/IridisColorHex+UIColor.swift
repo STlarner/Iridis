@@ -1,13 +1,14 @@
-import SwiftUI
+#if canImport(UIKit)
+import UIKit
 
-/// SwiftUI bridging for hexadecimal colors.
-extension ColorHex {
-    /// The SwiftUI color for this hexadecimal string.
-    public var color: Color { Color(hex: self) }
+/// UIKit bridging for hexadecimal colors.
+extension IridisColorHex {
+    /// The UIKit color for this hexadecimal string.
+    public var uiColor: UIColor { UIColor(hex: self) }
 }
 
-extension Color {
-    init(hex: String) {
+extension UIColor {
+    convenience init(hex: String) {
         let hex = hex.trimmingCharacters(
             in: CharacterSet.alphanumerics.inverted
         )
@@ -33,11 +34,11 @@ extension Color {
         }
 
         self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue: Double(b) / 255,
-            opacity: Double(a) / 255
+            red: CGFloat(r) / 255,
+            green: CGFloat(g) / 255,
+            blue: CGFloat(b) / 255,
+            alpha: CGFloat(a) / 255
         )
     }
 }
+#endif

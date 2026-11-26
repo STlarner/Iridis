@@ -1,45 +1,50 @@
 import Observation
 import SwiftUI
 
-/// The default ``ThemeManager`` implementation.
+/// Owns the active theme and resolves its palette for the effective scheme.
 ///
-/// The class is observable, so SwiftUI tracks the selected theme and the
-/// forced color scheme without any Combine plumbing.
+/// The manager is intentionally in-memory: an app registers the themes it
+/// ships, restores the saved selection at launch and then reads ``palette``
+/// from the environment. Persistence, defaults and onboarding stay app-side.
+///
+/// Like `Orbit`, the type carries the package name so it does not collide with
+/// an app's own theme manager. The class is observable, so SwiftUI tracks the
+/// selected theme and the forced color scheme without Combine plumbing.
 @Observable
-public final class ThemeManagerImpl: ThemeManager {
-    private var theme: Theme
+public final class Iridis {
+    private var theme: IridisTheme
     /// Always updated from the system through ``updateSystemColorScheme(_:)``.
     private var systemColorScheme: ColorScheme = .light
     /// The user-forced scheme, or `nil` when the system one applies.
     public private(set) var colorScheme: ColorScheme?
     /// The registered themes, in registration order.
-    public private(set) var availableThemes: [Theme] = []
+    public private(set) var availableThemes: [IridisTheme] = []
 
     /// The resolved palette for the active theme and effective color scheme.
-    public var palette: Palette {
+    public var palette: IridisPalette {
         let effective = colorScheme ?? systemColorScheme
         return effective == .dark ? theme.darkPalette : theme.lightPalette
     }
 
     /// The theme currently selected.
-    public var currentTheme: Theme { theme }
+    public var currentTheme: IridisTheme { theme }
 
     /// Creates a manager whose initial selection is `theme`.
     ///
     /// Pass the theme the app considers its default; the package ships none.
-    public init(theme: Theme) {
+    public init(theme: IridisTheme) {
         self.theme = theme
     }
 
     /// Registers a theme unless one with the same name already exists.
-    public func registerTheme(_ newTheme: Theme) {
+    public func registerTheme(_ newTheme: IridisTheme) {
         guard !availableThemes.contains(where: { $0.name == newTheme.name })
         else { return }
         availableThemes.append(newTheme)
     }
 
     /// Selects `newTheme` as the active theme.
-    public func setTheme(_ newTheme: Theme) {
+    public func setTheme(_ newTheme: IridisTheme) {
         theme = newTheme
     }
 

@@ -1,11 +1,11 @@
 import Iridis
 import Testing
 
-@Suite("Theme")
-struct ThemeTests {
+@Suite("IridisTheme")
+struct IridisThemeTests {
     @Test("initializer stores the name and both palettes")
     func init_storesNameAndPalettes() {
-        let theme = Theme(
+        let theme = IridisTheme(
             name: "Alpha",
             lightPalette: Fixtures.alpha.lightPalette,
             darkPalette: Fixtures.alpha.darkPalette

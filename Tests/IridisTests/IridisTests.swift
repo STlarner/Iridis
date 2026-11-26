@@ -3,11 +3,11 @@ import SwiftUI
 import Testing
 
 @MainActor
-@Suite("ThemeManagerImpl")
-struct ThemeManagerImplTests {
+@Suite("Iridis")
+struct IridisTests {
     @Test("registerTheme avoids duplicate themes and preserves order")
     func registerTheme_deduplicatesByName() {
-        let sut = ThemeManagerImpl(theme: Fixtures.alpha)
+        let sut = Iridis(theme: Fixtures.alpha)
 
         sut.registerTheme(Fixtures.alpha)
         sut.registerTheme(Fixtures.beta)
@@ -18,7 +18,7 @@ struct ThemeManagerImplTests {
 
     @Test("palette follows the system color scheme when no override is set")
     func palette_followsSystemColorSchemeWithoutOverride() {
-        let sut = ThemeManagerImpl(theme: Fixtures.alpha)
+        let sut = Iridis(theme: Fixtures.alpha)
 
         sut.updateSystemColorScheme(.dark)
 
@@ -31,7 +31,7 @@ struct ThemeManagerImplTests {
 
     @Test("explicit color scheme overrides the system color scheme")
     func palette_usesExplicitColorSchemeOverride() {
-        let sut = ThemeManagerImpl(theme: Fixtures.alpha)
+        let sut = Iridis(theme: Fixtures.alpha)
 
         sut.updateSystemColorScheme(.dark)
         sut.setColorScheme(.light)
@@ -45,7 +45,7 @@ struct ThemeManagerImplTests {
 
     @Test("configure loads a saved theme and color scheme")
     func configure_appliesSavedConfiguration() {
-        let sut = ThemeManagerImpl(theme: Fixtures.alpha)
+        let sut = Iridis(theme: Fixtures.alpha)
         sut.registerTheme(Fixtures.alpha)
         sut.registerTheme(Fixtures.beta)
 
@@ -63,7 +63,7 @@ struct ThemeManagerImplTests {
         "configure ignores unknown theme names and clears the color scheme when nil"
     )
     func configure_handlesUnknownValues() {
-        let sut = ThemeManagerImpl(theme: Fixtures.beta)
+        let sut = Iridis(theme: Fixtures.beta)
         sut.registerTheme(Fixtures.beta)
 
         sut.configure(themeName: "Unknown", colorScheme: nil)

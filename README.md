@@ -3,18 +3,20 @@
 Named themes and semantic palettes for SwiftUI.
 
 Iridis is the colored ring of the eye: the part that decides how everything
-looks. The package gives an app a small, explicit model for appearance — a
-`Theme` pairs a light and a dark palette, a `ThemeManager` holds the active one
-and resolves the palette for the effective color scheme.
+looks. The package gives an app a small, explicit model for appearance — an
+`IridisTheme` pairs a light and a dark `IridisPalette`, and an `Iridis` manager
+holds the active one and resolves the palette for the effective color scheme.
 
 The package intentionally ships no brand colors and no persistence. Themes,
 theme names, stored preferences and onboarding belong to the app that uses it.
+Public types carry the package name, so an app can keep its own `Theme`,
+`Palette` or theme manager without collisions.
 
 ## Features
 
-- Semantic `Palette` roles shared by light and dark appearances.
-- Named `Theme` values, with a light and a dark palette.
-- Observable `ThemeManager` that follows the system or a forced color scheme.
+- Semantic `IridisPalette` roles shared by light and dark appearances.
+- Named `IridisTheme` values, with a light and a dark palette.
+- Observable `Iridis` manager that follows the system or a forced color scheme.
 - Hex values bridged to SwiftUI `Color` and UIKit `UIColor`.
 - No globals, no storage, no app-specific copy.
 
@@ -28,7 +30,7 @@ Add `https://github.com/STlarner/Iridis.git` as an Xcode package dependency
 and select the `Iridis` product. For a SwiftPM project:
 
 ```swift
-.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.1.0")
+.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.2.0")
 ```
 
 ## Quick start
@@ -41,9 +43,9 @@ and dark palettes under a name.
 <!-- swift-example: quick-start -->
 
 ```swift
-extension Theme {
-    static func defaultTheme() -> Theme {
-        let light = Palette(
+extension IridisTheme {
+    static func defaultTheme() -> IridisTheme {
+        let light = IridisPalette(
             brandPrimary: "#E07A60",
             brandVariant: "#C4614A",
             surfacePrimary: "#FBF7F3",
@@ -59,7 +61,7 @@ extension Theme {
             surfaceSuccess: "#E7F3ED",
             border: "#E0D8D0"
         )
-        let dark = Palette(
+        let dark = IridisPalette(
             brandPrimary: "#E07A60",
             brandVariant: "#C4614A",
             surfacePrimary: "#1B1712",
@@ -75,7 +77,7 @@ extension Theme {
             surfaceSuccess: "#1E3427",
             border: "#5C524B"
         )
-        return Theme(
+        return IridisTheme(
             name: "Terracotta",
             lightPalette: light,
             darkPalette: dark
@@ -90,9 +92,9 @@ The initial theme is required: the package has no default to fall back to.
 Register every other theme the app offers, then select the one to show.
 
 ```swift
-let themeManager = ThemeManagerImpl(theme: .defaultTheme())
-themeManager.registerTheme(.defaultTheme())
-themeManager.setTheme(.defaultTheme())
+let iridis = Iridis(theme: .defaultTheme())
+iridis.registerTheme(.defaultTheme())
+iridis.setTheme(.defaultTheme())
 ```
 
 ### 3. Expose the manager to SwiftUI
@@ -102,9 +104,7 @@ default value.
 
 ```swift
 extension EnvironmentValues {
-    @Entry var theme: any ThemeManager = ThemeManagerImpl(
-        theme: .defaultTheme()
-    )
+    @Entry var theme: Iridis = Iridis(theme: .defaultTheme())
 }
 ```
 
@@ -126,9 +126,9 @@ struct ThemedCard: View {
 ### 5. Follow the system or force a scheme
 
 ```swift
-themeManager.setColorScheme(.dark)
-themeManager.setColorScheme(nil)
-themeManager.updateSystemColorScheme(.light)
+iridis.setColorScheme(.dark)
+iridis.setColorScheme(nil)
+iridis.updateSystemColorScheme(.light)
 ```
 
 `setColorScheme(_:)` forces a scheme; `nil` restores automatic mode.
@@ -144,7 +144,7 @@ color scheme with the app's own settings, then restore them at launch.
 let savedThemeName: String? = "Terracotta"
 let savedColorScheme: ColorScheme? = .dark
 
-themeManager.configure(
+iridis.configure(
     themeName: savedThemeName,
     colorScheme: savedColorScheme
 )

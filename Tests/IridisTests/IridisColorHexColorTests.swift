@@ -1,41 +1,44 @@
 #if canImport(UIKit)
+import SwiftUI
 import Testing
 import UIKit
 
 @testable import Iridis
 
 @MainActor
-@Suite("Palette UIColors")
-struct PaletteUIColorTests {
-    @Test("UIColor init(hex:) parses 3-digit 6-digit and 8-digit hex values")
-    func uiColorInit_parsesCommonHexFormats() {
+@Suite("IridisColorHex Color")
+struct IridisColorHexColorTests {
+    @Test("Color init(hex:) parses 3-digit 6-digit and 8-digit hex values")
+    func colorInit_parsesCommonHexFormats() {
         assert(
-            color: UIColor(hex: "#ABC"),
-            red: 170.0 / 255.0,
-            green: 187.0 / 255.0,
-            blue: 204.0 / 255.0,
+            color: Color(hex: "#0F8"),
+            red: 0,
+            green: 1,
+            blue: 136.0 / 255.0,
             alpha: 1
         )
         assert(
-            color: UIColor(hex: "#123456"),
-            red: 18.0 / 255.0,
-            green: 52.0 / 255.0,
-            blue: 86.0 / 255.0,
-            alpha: 1
-        )
-        assert(
-            color: UIColor(hex: "80112233"),
+            color: Color(hex: "#112233"),
             red: 17.0 / 255.0,
             green: 34.0 / 255.0,
             blue: 51.0 / 255.0,
-            alpha: 128.0 / 255.0
+            alpha: 1
+        )
+        assert(
+            color: Color(hex: "CC336699"),
+            red: 51.0 / 255.0,
+            green: 102.0 / 255.0,
+            blue: 153.0 / 255.0,
+            alpha: 204.0 / 255.0
         )
     }
 
-    @Test("UIColor init(hex:) falls back for invalid input")
-    func uiColorInit_usesFallbackForInvalidHex() {
+    @Test(
+        "Color init(hex:) falls back to the default components for invalid input"
+    )
+    func colorInit_usesFallbackForInvalidHex() {
         assert(
-            color: UIColor(hex: "invalid"),
+            color: Color(hex: "invalid"),
             red: 1.0 / 255.0,
             green: 1.0 / 255.0,
             blue: 0,
@@ -43,10 +46,10 @@ struct PaletteUIColorTests {
         )
     }
 
-    @Test("ColorHex.uiColor forwards into the UIColor hex initializer")
-    func colorHexUIColor_usesUIColorInitializer() {
+    @Test("IridisColorHex.color forwards into the Color hex initializer")
+    func colorHexColor_usesColorInitializer() {
         assert(
-            color: "#445566".uiColor,
+            color: "#445566".color,
             red: 68.0 / 255.0,
             green: 85.0 / 255.0,
             blue: 102.0 / 255.0,
@@ -55,18 +58,19 @@ struct PaletteUIColorTests {
     }
 
     private func assert(
-        color: UIColor,
+        color: Color,
         red: CGFloat,
         green: CGFloat,
         blue: CGFloat,
         alpha: CGFloat,
         tolerance: CGFloat = 0.0001
     ) {
+        let uiColor = UIColor(color)
         var resolvedRed: CGFloat = 0
         var resolvedGreen: CGFloat = 0
         var resolvedBlue: CGFloat = 0
         var resolvedAlpha: CGFloat = 0
-        color.getRed(
+        uiColor.getRed(
             &resolvedRed,
             green: &resolvedGreen,
             blue: &resolvedBlue,
