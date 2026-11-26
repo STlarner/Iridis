@@ -21,7 +21,7 @@ Public types carry the package name so they do not collide with an app's own
 
 ## Requirements
 
-Swift 6.2 or later. iOS 18 or later, macOS 15 or later.
+Swift 6.2 or later. iOS 18 or later.
 
 ## Installation
 
@@ -29,7 +29,7 @@ Add `https://github.com/STlarner/Iridis.git` as an Xcode package dependency
 and select the `Iridis` product. For a SwiftPM project:
 
 ```swift
-.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.3.0")
+.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.4.0")
 ```
 
 ## Quick start
@@ -122,7 +122,24 @@ struct ThemedCard: View {
 }
 ```
 
-### 5. Follow the system or force a scheme
+### 5. Apply the appearance
+
+Apply the manager's scheme at the top of the presentation. SwiftUI does not
+refresh the status bar when the preference returns to `nil` or when the system
+appearance changes, so `iridisAppearance(_:)` keeps it in sync.
+
+```swift
+struct AppRoot: View {
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Text("Content")
+            .iridisAppearance(theme.colorScheme)
+    }
+}
+```
+
+### 6. Follow the system or force a scheme
 
 ```swift
 iridis.setColorScheme(.dark)
@@ -134,7 +151,7 @@ iridis.updateSystemColorScheme(.light)
 `updateSystemColorScheme(_:)` records the scheme reported by the system, which
 is the one automatic mode follows.
 
-### 6. Restore a saved selection
+### 7. Restore a saved selection
 
 Iridis keeps the selection in memory. Persist the theme name and the forced
 color scheme with the app's own settings, then restore them at launch.

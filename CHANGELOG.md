@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0
+
+- Iridis is now iOS-only; the macOS platform and its build step were removed.
+- Add the `iridisAppearance(_:)` view modifier: it applies a forced scheme and
+  refreshes the iOS status bar when the forced or system appearance changes.
+
 ## 0.3.0
 
 - Add the `Iridis` protocol as the manager contract and rename the concrete

@@ -35,6 +35,10 @@ updates every view that reads the manager from the environment.
 - ``Iridis``
 - ``IridisImpl``
 
+### Applying the appearance
+
+- ``SwiftUICore/View/iridisAppearance(_:)``
+
 ### Guides
 
 - <doc:UsageGuide>

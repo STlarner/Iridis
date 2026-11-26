@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "Iridis",
-    platforms: [.iOS(.v18), .macOS(.v15)],
+    platforms: [.iOS(.v18)],
     products: [.library(name: "Iridis", targets: ["Iridis"])],
     targets: [
         .target(name: "Iridis"),

@@ -94,6 +94,23 @@ struct ThemedCard: View {
 }
 ```
 
+## Apply the appearance
+
+Apply the manager's scheme at the top of the presentation. `.iridisAppearance(_:)`
+keeps the iOS status bar in sync when the forced scheme changes and when the
+system appearance changes in automatic mode.
+
+```swift
+struct AppRoot: View {
+    @Environment(\.theme) private var theme
+
+    var body: some View {
+        Text("Content")
+            .iridisAppearance(theme.colorScheme)
+    }
+}
+```
+
 <!-- /swift-example -->
 
 Use `IridisColorHex.uiColor` when a UIKit API needs a color, for example an
