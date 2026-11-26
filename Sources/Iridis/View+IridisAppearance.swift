@@ -3,12 +3,12 @@ import UIKit
 
 /// Appearance helpers for SwiftUI views.
 extension View {
-    /// Applies `scheme` to this presentation and keeps the status bar in sync.
+    /// Applies `scheme` to the whole window and keeps the status bar in sync.
     ///
     /// Prefer this over `preferredColorScheme(_:)` when the value comes from an
-    /// ``Iridis`` manager. SwiftUI does not refresh the status bar when the
-    /// preference changes back to `nil`, nor when the system appearance changes
-    /// while the manager follows it.
+    /// ``Iridis`` manager. The modifier sets the window style, so sheets and
+    /// modals inherit it without extra code, and refreshes the status bar when
+    /// the preference changes back to `nil` or the system appearance changes.
     /// - Parameter scheme: The forced scheme, or `nil` to follow the system.
     public func iridisAppearance(_ scheme: ColorScheme?) -> some View {
         modifier(IridisAppearanceModifier(scheme: scheme))
@@ -24,14 +24,14 @@ private struct IridisAppearanceModifier: ViewModifier {
         content
             .preferredColorScheme(scheme)
             .onChange(of: scheme, initial: true) { _, _ in
-                refreshStatusBarAppearance()
+                syncWindowAppearance()
             }
             .onChange(of: systemScheme, initial: true) { _, _ in
-                refreshStatusBarAppearance()
+                syncWindowAppearance()
             }
     }
 
-    private func refreshStatusBarAppearance() {
+    private func syncWindowAppearance() {
         guard
             let scene = UIApplication.shared.connectedScenes
                 .compactMap({ $0 as? UIWindowScene })
@@ -40,8 +40,11 @@ private struct IridisAppearanceModifier: ViewModifier {
                 ?? scene.windows.first
         else { return }
 
-        // `preferredColorScheme(nil)` leaves the previous window style behind.
-        if scheme == nil {
+        if let scheme {
+            window.overrideUserInterfaceStyle =
+                scheme == .dark ? .dark : .light
+        } else {
+            // `preferredColorScheme(nil)` leaves the previous style behind.
             window.overrideUserInterfaceStyle = .unspecified
         }
 

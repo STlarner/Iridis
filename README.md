@@ -29,7 +29,7 @@ Add `https://github.com/STlarner/Iridis.git` as an Xcode package dependency
 and select the `Iridis` product. For a SwiftPM project:
 
 ```swift
-.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.4.0")
+.package(url: "https://github.com/STlarner/Iridis.git", exact: "0.4.1")
 ```
 
 ## Quick start
@@ -126,7 +126,8 @@ struct ThemedCard: View {
 
 Apply the manager's scheme at the top of the presentation. SwiftUI does not
 refresh the status bar when the preference returns to `nil` or when the system
-appearance changes, so `iridisAppearance(_:)` keeps it in sync.
+appearance changes, so `iridisAppearance(_:)` keeps it in sync. It also applies
+the scheme to the window, so sheets and modals inherit it without extra code.
 
 ```swift
 struct AppRoot: View {

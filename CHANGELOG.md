@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.1
+
+- `iridisAppearance(_:)` now applies the forced scheme to the window, so sheets
+  and modals inherit the app appearance without adopting the modifier.
+
 ## 0.4.0
 
 - Iridis is now iOS-only; the macOS platform and its build step were removed.

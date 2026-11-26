@@ -97,8 +97,9 @@ struct ThemedCard: View {
 ## Apply the appearance
 
 Apply the manager's scheme at the top of the presentation. `.iridisAppearance(_:)`
-keeps the iOS status bar in sync when the forced scheme changes and when the
-system appearance changes in automatic mode.
+applies the scheme to the window, so sheets and modals inherit it, and keeps
+the iOS status bar in sync when the forced scheme changes and when the system
+appearance changes in automatic mode.
 
 ```swift
 struct AppRoot: View {
