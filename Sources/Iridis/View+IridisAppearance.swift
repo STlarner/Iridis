@@ -49,9 +49,24 @@ private struct IridisAppearanceModifier: ViewModifier {
         }
 
         var controller = window.rootViewController
-        while let presented = controller?.presentedViewController {
-            controller = presented
+        while let current = controller {
+            refresh(current, resettingStyle: scheme == nil)
+            controller = current.presentedViewController
         }
-        controller?.setNeedsStatusBarAppearanceUpdate()
+    }
+
+    /// Controllers presented while a scheme was forced keep that style, so
+    /// going back to `nil` must clear it on each of them, not just the window.
+    private func refresh(
+        _ controller: UIViewController,
+        resettingStyle: Bool
+    ) {
+        if resettingStyle {
+            controller.overrideUserInterfaceStyle = .unspecified
+        }
+        controller.setNeedsStatusBarAppearanceUpdate()
+        for child in controller.children {
+            refresh(child, resettingStyle: resettingStyle)
+        }
     }
 }
